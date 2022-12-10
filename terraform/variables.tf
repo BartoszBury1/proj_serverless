@@ -14,12 +14,12 @@ variable "aclType" {
 }
 
 
-variable "indexWebsiteFile" {
+variable "index_file" {
   type    = string
   default = "index.html"
 }
 
-variable "errorWebsiteFile" {
+variable "error_file" {
   type    = string
   default = "error.html"
 }

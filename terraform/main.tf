@@ -32,12 +32,12 @@ resource "aws_s3_object" "index" {
   etag = filemd5(var.index_source)
   acl = var.acl_public
   bucket = aws_s3_bucket.my-bucket.bucket
-  key    = var.indexWebsiteFile
+  key    = var.index_file
 }
 
 resource "aws_s3_object" "error" {
   bucket = aws_s3_bucket.my-bucket.bucket
-  key    = var.errorWebsiteFile
+  key    = var.error_file
   source = var.error_source
   content_type = var.type_html
   etag = filemd5(var.error_source)
@@ -49,11 +49,11 @@ resource "aws_s3_bucket_website_configuration" "my-bucket" {
   bucket = aws_s3_bucket.my-bucket.bucket
 
   index_document {
-    suffix = var.indexWebsiteFile
+    suffix = var.index_file
   }
 
   error_document {
-    key = var.errorWebsiteFile
+    key = var.error_file
   }
 
   routing_rules = <<EOF
