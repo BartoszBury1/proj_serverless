@@ -24,6 +24,26 @@ variable "errorWebsiteFile" {
   default = "error.html"
 }
 
+variable "error_source" {
+  type = string
+  default = "www/error.html"
+}
+variable "index_source" {
+  type = string
+  default = "www/index.html"
+}
+
+variable "type_html" {
+  type = string
+  default = "text/html"
+}
+
+variable "acl_public" {
+  type = string
+  default = "public-read"
+}
+
+
 variable "awsSource" {
   type    = string
   default = "hashicorp/aws"

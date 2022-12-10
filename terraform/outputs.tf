@@ -1,3 +1,9 @@
+output "bucket_name" {
+  value = aws_s3_bucket.my-bucket.id
+  description = "ID of buccket"
+  
+}
+
 output "bucket_domain_name" {
   value       = aws_s3_bucket.my-bucket.*.bucket_domain_name
   description = "FQDN of bucket"

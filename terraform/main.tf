@@ -7,10 +7,6 @@ resource "aws_s3_bucket_acl" "my-bucket" {
   acl    = var.aclType
 }
 
-resource "aws_s3_object" "my-bucket" {
-  bucket = aws_s3_bucket.my-bucket.id
-  key    = var.objectKey
-}
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.my-bucket.id
 
@@ -30,21 +26,24 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 POLICY
 }
 
-data "aws_iam_policy_document" "allow_access_from_another_account" {
-  statement {
-    principals {
-      type        = var.policyDocumentPrincipalsType
-      identifiers = var.policyDocumentPrincipalsIdentifiers
-    }
-
-    actions = var.policyDocumentPrincipalsActions
-
-    resources = [
-      aws_s3_bucket.my-bucket.arn,
-      "${aws_s3_bucket.my-bucket.arn}/*",
-    ]
-  }
+resource "aws_s3_object" "index" {
+  source = var.index_source
+  content_type = var.type_html
+  etag = filemd5(var.index_source)
+  acl = var.acl_public
+  bucket = aws_s3_bucket.my-bucket.bucket
+  key    = var.indexWebsiteFile
 }
+
+resource "aws_s3_object" "error" {
+  bucket = aws_s3_bucket.my-bucket.bucket
+  key    = var.errorWebsiteFile
+  source = var.error_source
+  content_type = var.type_html
+  etag = filemd5(var.error_source)
+  acl = var.acl_public
+}
+
 
 resource "aws_s3_bucket_website_configuration" "my-bucket" {
   bucket = aws_s3_bucket.my-bucket.bucket
